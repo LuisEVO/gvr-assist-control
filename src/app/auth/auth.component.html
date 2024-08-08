@@ -1,0 +1,35 @@
+<form [formGroup]="authFormGroup" (ngSubmit)="signIn()">
+  <h1>Control de Asistencia GVR</h1>
+
+  <mat-form-field appearance="outline">
+    <mat-label>Correo</mat-label>
+    <input matInput formControlName="email" />
+    <mat-icon matSuffix>user</mat-icon>
+  </mat-form-field>
+  <mat-form-field appearance="outline">
+    <mat-label>Contraseña</mat-label>
+    <input
+      matInput
+      formControlName="password"
+      [type]="showPassword ? 'text' : 'password'"
+    />
+    <button
+      mat-icon-button
+      type="button"
+      matSuffix
+      (click)="toogleShowPassword()"
+    >
+      <mat-icon>{{ showPassword ? "visibility" : "visibility_off" }}</mat-icon>
+    </button>
+  </mat-form-field>
+
+  <div class="actions">
+    <button
+      mat-flat-button
+      color="primary"
+      [disabled]="authFormGroup.invalid || loading"
+    >
+      {{ loading ? "Cargando..." : "Ingresar" }}
+    </button>
+  </div>
+</form>

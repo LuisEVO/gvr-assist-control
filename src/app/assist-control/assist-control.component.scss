@@ -1,0 +1,39 @@
+:host {
+  display: block;
+
+  mat-toolbar {
+    display: flex;
+    justify-content: space-between;
+  }
+
+  mat-tab-group {
+    max-width: 100%;
+    width: 400px;
+    margin: auto;
+  }
+
+  &.loading {
+    display: grid;
+    place-content: center;
+    height: 100vh;
+  }
+
+  h1 {
+    font-size: x-large;
+    line-height: 100%;
+    margin: unset;
+    text-align: center;
+  }
+
+  .form,
+  .content {
+    padding: 2rem 1rem;
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+  }
+
+  .content {
+    align-items: center;
+  }
+}

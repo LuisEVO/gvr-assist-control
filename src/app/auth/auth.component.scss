@@ -1,0 +1,32 @@
+:host {
+  display: block;
+  padding: 4rem 2rem;
+
+  form {
+    max-width: 100%;
+    width: 400px;
+    margin: auto;
+
+    h1 {
+      text-align: center;
+      font-size: xx-large;
+    }
+
+    mat-form-field {
+      display: block;
+
+      &:not(:last-child) {
+        margin-bottom: 1rem;
+      }
+    }
+
+    .actions {
+      text-align: center;
+
+      button {
+        max-width: 100%;
+        width: 100%;
+      }
+    }
+  }
+}

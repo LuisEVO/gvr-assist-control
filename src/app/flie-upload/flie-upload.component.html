@@ -1,0 +1,18 @@
+<input hidden type="file" #Input (change)="selectFile($event)" />
+<mat-card appearance="outlined" (click)="Input.click()">
+  <mat-card-content
+    class="content"
+    [class.content--with-value]="!!value"
+    [class.content--without-value]="!value"
+  >
+    @if (value) {
+      <span>{{ value.name }}</span>
+      <button mat-icon-button (click)="unselectFile($event)">
+        <mat-icon>close</mat-icon>
+      </button>
+    } @else {
+      <mat-icon>upload_file</mat-icon>
+      <span>Ingrese su reporte</span>
+    }
+  </mat-card-content>
+</mat-card>

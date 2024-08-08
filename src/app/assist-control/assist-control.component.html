@@ -1,0 +1,43 @@
+@if (loading) {
+  <mat-progress-spinner class="example-margin" mode="indeterminate" />
+} @else {
+  <mat-toolbar>
+    <span>GVR: Control de Asistencia</span>
+
+    <button mat-stroked-button (click)="logout()">Salir</button>
+  </mat-toolbar>
+  <mat-tab-group dynamicHeight [selectedIndex]="selectedIndex">
+    <mat-tab label="Ingreso">
+      @if (todayIn) {
+        <div class="content">
+          <mat-icon>check</mat-icon>
+          <h1>Ingreso Registrado</h1>
+        </div>
+      } @else {
+        <form class="form" [formGroup]="todayInForm" (ngSubmit)="save(1)">
+          <h1>Registro de Ingreso</h1>
+          <app-flie-upload formControlName="file" />
+          <button mat-flat-button [disabled]="todayInForm.invalid || saving">
+            {{ saving ? "Guardando ..." : "Registrar" }}
+          </button>
+        </form>
+      }
+    </mat-tab>
+    <mat-tab label="Salida" [disabled]="!todayIn">
+      @if (todayOut) {
+        <div class="content">
+          <mat-icon>check</mat-icon>
+          <h1>Salida Registrada</h1>
+        </div>
+      } @else {
+        <form class="form" [formGroup]="todayOutForm" (ngSubmit)="save(2)">
+          <h1>Registro de Salida</h1>
+          <app-flie-upload formControlName="file" />
+          <button mat-flat-button [disabled]="todayOutForm.invalid || saving">
+            {{ saving ? "Guardando ..." : "Registrar" }}
+          </button>
+        </form>
+      }
+    </mat-tab>
+  </mat-tab-group>
+}

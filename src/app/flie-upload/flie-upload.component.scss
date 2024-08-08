@@ -1,0 +1,28 @@
+:host {
+  display: block;
+
+  &.disabled {
+    pointer-events: none;
+  }
+
+  mat-card {
+    cursor: pointer;
+
+    &:active {
+      opacity: 0.5;
+    }
+
+    .content {
+      height: 100px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+
+      &--without-value {
+        flex-direction: column;
+        color: #005cbb;
+        justify-content: space-around;
+      }
+    }
+  }
+}
