@@ -1,0 +1,21 @@
+:host {
+  display: block;
+}
+
+.container {
+  max-width: 100%;
+  width: 800px;
+  margin: auto;
+}
+
+tr.detail-row {
+  height: 0;
+}
+
+tr.element-row td {
+  border-bottom-width: 0;
+}
+
+.element-detail {
+  overflow: hidden;
+}

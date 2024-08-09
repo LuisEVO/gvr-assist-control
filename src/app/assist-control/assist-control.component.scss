@@ -1,39 +1,21 @@
 :host {
   display: block;
 
-  mat-toolbar {
-    display: flex;
-    justify-content: space-between;
-  }
-
-  mat-tab-group {
-    max-width: 100%;
-    width: 400px;
-    margin: auto;
-  }
-
-  &.loading {
-    display: grid;
-    place-content: center;
+  mat-drawer-container {
     height: 100vh;
   }
 
-  h1 {
-    font-size: x-large;
-    line-height: 100%;
-    margin: unset;
-    text-align: center;
-  }
-
-  .form,
-  .content {
-    padding: 2rem 1rem;
+  mat-toolbar {
     display: flex;
-    flex-direction: column;
-    gap: 2rem;
+    justify-content: space-between;
+
+    > div:first-child {
+      display: flex;
+      align-items: center;
+    }
   }
 
   .content {
-    align-items: center;
+    padding: 2rem;
   }
 }

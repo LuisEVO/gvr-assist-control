@@ -10,7 +10,7 @@ export const routes: Routes = [
   {
     path: 'assist-control',
     canActivate: [authGuard],
-    loadComponent: () => import('./assist-control/assist-control.component'),
+    loadChildren: () => import('./assist-control/assist-control.routes'),
   },
   {
     path: 'auth',

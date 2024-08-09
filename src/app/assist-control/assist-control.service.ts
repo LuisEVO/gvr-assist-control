@@ -25,6 +25,18 @@ export class AssistControlService {
   private supabaseClient = inject(SupabaseService).supabaseClient;
   private authService = inject(AuthService);
 
+  async getAllByUser(): Promise<AssistControl[]> {
+    const userId = await this.authService.getUserId();
+
+    const { data } = await this.supabaseClient
+      .from('assist-control')
+      .select()
+      .eq('userId', userId)
+      .returns<AssistControl[]>();
+
+    return data?.length ? data : [];
+  }
+
   async getTodayRegister(
     type: AssistControlType,
   ): Promise<AssistControl | null> {

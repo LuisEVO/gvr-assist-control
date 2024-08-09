@@ -16,6 +16,15 @@ export class AuthService {
     return session?.user.id;
   }
 
+  async isAdmin() {
+    const { data } = await this.session();
+    const email = data.session?.user.email || '';
+    return [
+      'luis.vilcarromero.ortiz@gmail.com',
+      'gvr.osco2719@gmail.com',
+    ].includes(email);
+  }
+
   session() {
     return this.supabaseClient.auth.getSession();
   }

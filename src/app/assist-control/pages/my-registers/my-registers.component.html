@@ -1,0 +1,71 @@
+@if (loading) {
+  <mat-progress-spinner class="example-margin" mode="indeterminate" />
+} @else {
+  <div class="container">
+    <table
+      mat-table
+      [dataSource]="dataSource"
+      multiTemplateDataRows
+      class="mat-elevation-z2"
+    >
+      <ng-container matColumnDef="type">
+        <th mat-header-cell *matHeaderCellDef>Tipo</th>
+        <td mat-cell *matCellDef="let element">
+          {{ element.type === 1 ? "Ingreso" : "Salida" }}
+        </td>
+      </ng-container>
+
+      <ng-container matColumnDef="date">
+        <th mat-header-cell *matHeaderCellDef>Fecha</th>
+        <td mat-cell *matCellDef="let element">
+          {{ element.date | date: "dd/MM/YYYY" }}
+        </td>
+      </ng-container>
+
+      <ng-container matColumnDef="time">
+        <th mat-header-cell *matHeaderCellDef>Hora</th>
+        <td mat-cell *matCellDef="let element">
+          {{ element.time | slice: 0 : 5 }}
+        </td>
+      </ng-container>
+
+      <ng-container matColumnDef="maps">
+        <th mat-header-cell *matHeaderCellDef>Mapa</th>
+        <td mat-cell *matCellDef="let element">
+          <a [href]="element.geo | appMapsUrl" target="_blank">Mapa</a>
+        </td>
+      </ng-container>
+
+      <ng-container matColumnDef="expandedDetail">
+        <td
+          mat-cell
+          *matCellDef="let element"
+          [attr.colspan]="displayedColumns.length"
+        >
+          <div
+            class="element-detail"
+            [@detailExpand]="
+              element == expandedElement ? 'expanded' : 'collapsed'
+            "
+          >
+            <p><b>Actividades</b></p>
+            <p>{{ element.text }}</p>
+          </div>
+        </td>
+      </ng-container>
+
+      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+      <tr
+        mat-row
+        *matRowDef="let element; columns: displayedColumns"
+        class="element-row"
+        (click)="expandedElement = expandedElement === element ? null : element"
+      ></tr>
+      <tr
+        mat-row
+        *matRowDef="let row; columns: ['expandedDetail']"
+        class="detail-row"
+      ></tr>
+    </table>
+  </div>
+}
