@@ -16,7 +16,10 @@
       } @else {
         <form class="form" [formGroup]="todayInForm" (ngSubmit)="save(1)">
           <h1>Registro de Ingreso</h1>
-          <app-flie-upload formControlName="file" />
+          <mat-form-field>
+            <mat-label>Actividades proyectadas</mat-label>
+            <textarea matInput formControlName="text"></textarea>
+          </mat-form-field>
           <button mat-flat-button [disabled]="todayInForm.invalid || saving">
             {{ saving ? "Guardando ..." : "Registrar" }}
           </button>
@@ -32,7 +35,10 @@
       } @else {
         <form class="form" [formGroup]="todayOutForm" (ngSubmit)="save(2)">
           <h1>Registro de Salida</h1>
-          <app-flie-upload formControlName="file" />
+          <mat-form-field>
+            <mat-label>Reporte de actividades</mat-label>
+            <textarea matInput formControlName="text"></textarea>
+          </mat-form-field>
           <button mat-flat-button [disabled]="todayOutForm.invalid || saving">
             {{ saving ? "Guardando ..." : "Registrar" }}
           </button>

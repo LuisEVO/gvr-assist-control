@@ -1,7 +1,7 @@
 import { Injectable, inject } from '@angular/core';
+import moment from 'moment';
 import { AuthService } from '../auth/auth.service';
 import { SupabaseService } from '../supabase.service';
-import moment from 'moment';
 
 export enum AssistControlType {
   in = 1,
@@ -11,9 +11,11 @@ export enum AssistControlType {
 export interface AssistControl {
   id: string;
   date: string;
+  time: string;
+  geo: object;
   type: AssistControlType;
   userId: string;
-  documentPath: string;
+  text: string;
 }
 
 @Injectable({
@@ -56,15 +58,5 @@ export class AssistControlService {
 
   async delete(id: string) {
     return await this.supabaseClient.from('notes').delete().eq('id', id);
-  }
-
-  async downLoadDocument(path: string) {
-    return await this.supabaseClient.storage.from('documents').download(path);
-  }
-
-  async uploadDocument(filePath: string, file: File) {
-    return await this.supabaseClient.storage
-      .from('documents')
-      .upload(filePath, file);
   }
 }

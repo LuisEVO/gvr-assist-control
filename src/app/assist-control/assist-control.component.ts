@@ -1,15 +1,5 @@
 import { CommonModule } from '@angular/common';
 import { Component, inject, OnInit } from '@angular/core';
-import { MatCardModule } from '@angular/material/card';
-import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
-import { MatTabsModule } from '@angular/material/tabs';
-import {
-  AssistControl,
-  AssistControlService,
-  AssistControlType,
-} from './assist-control.service';
-import { FlieUploadComponent } from '../flie-upload/flie-upload.component';
-import { MatButtonModule } from '@angular/material/button';
 import {
   FormBuilder,
   FormControl,
@@ -17,10 +7,22 @@ import {
   ReactiveFormsModule,
   Validators,
 } from '@angular/forms';
+import { MatButtonModule } from '@angular/material/button';
+import { MatCardModule } from '@angular/material/card';
+import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
+import { MatInputModule } from '@angular/material/input';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { MatTabsModule } from '@angular/material/tabs';
 import { MatToolbarModule } from '@angular/material/toolbar';
-import { AuthService } from '../auth/auth.service';
 import { Router } from '@angular/router';
+import { AuthService } from '../auth/auth.service';
+import { FlieUploadComponent } from '../flie-upload/flie-upload.component';
+import {
+  AssistControl,
+  AssistControlService,
+  AssistControlType,
+} from './assist-control.service';
 
 @Component({
   selector: 'app-assist-control',
@@ -35,6 +37,8 @@ import { Router } from '@angular/router';
     ReactiveFormsModule,
     MatIconModule,
     MatToolbarModule,
+    MatInputModule,
+    MatFormFieldModule,
   ],
   templateUrl: './assist-control.component.html',
   styleUrl: './assist-control.component.scss',
@@ -55,15 +59,15 @@ export default class AssistControlComponent implements OnInit {
   todayIn: AssistControl | null = null;
   todayOut: AssistControl | null = null;
 
-  todayInForm: FormGroup<{ file: FormControl<File | null> }>;
-  todayOutForm: FormGroup<{ file: FormControl<File | null> }>;
+  todayInForm: FormGroup<{ text: FormControl<string | null> }>;
+  todayOutForm: FormGroup<{ text: FormControl<string | null> }>;
 
   constructor() {
     this.todayInForm = this.formBuilder.group({
-      file: this.formBuilder.control<File | null>(null, Validators.required),
+      text: this.formBuilder.control<string | null>(null, Validators.required),
     });
     this.todayOutForm = this.formBuilder.group({
-      file: this.formBuilder.control<File | null>(null, Validators.required),
+      text: this.formBuilder.control<string | null>(null, Validators.required),
     });
   }
 
@@ -81,34 +85,35 @@ export default class AssistControlComponent implements OnInit {
     });
   }
 
-  save(type: AssistControlType) {
+  async save(type: AssistControlType) {
     this.saving = true;
 
-    let file: File;
+    let text: string;
 
     if (type === AssistControlType.in) {
-      file = this.todayInForm.controls.file.value!;
+      text = this.todayInForm.controls.text.value!;
     } else {
-      file = this.todayOutForm.controls.file.value!;
+      text = this.todayOutForm.controls.text.value!;
     }
 
-    const fileExt = file.name.split('.').pop();
-    const filePath = `${Math.random()}.${fileExt}`;
-
-    Promise.all([
-      this.assistControlService.uploadDocument(filePath, file),
-      this.assistControlService.create({
-        type,
-        documentPath: filePath,
-      }),
-    ]).then(([_, res]) => {
-      if (type === AssistControlType.in) {
-        this.todayIn = res;
-      } else {
-        this.todayOut = res;
-      }
-      this.saving = false;
+    const geo = await new Promise((resolve, reject) => {
+      navigator.geolocation.getCurrentPosition(resolve, reject);
     });
+
+    this.assistControlService
+      .create({
+        type,
+        text,
+        geo: geo ?? {},
+      })
+      .then((res) => {
+        if (type === AssistControlType.in) {
+          this.todayIn = res;
+        } else {
+          this.todayOut = res;
+        }
+        this.saving = false;
+      });
   }
 
   logout() {
